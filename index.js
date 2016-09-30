@@ -17,14 +17,13 @@ server.route({
 
 function searchHandler (request, reply) {  
         const query = request.query.q;
-        const search = searchStrings(query);
-
-        if (!search) {
-            reply("Bang not found"); //TODO offer to add to db.
-            return;
-        }
-
-        reply.redirect(search);
+        searchStrings(query, (search) => {
+            reply.redirect(search);
+             if (!search) {
+                reply("Bang not found"); //TODO offer to add to db.
+                return;
+             }
+       });
     }
 
 

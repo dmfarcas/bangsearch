@@ -1,4 +1,5 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize'
+
 const sequelize = new Sequelize('postgres://postgres:postgres@127.0.0.1:5432/postgres');
 const bangList = sequelize.define('banglist', {
   bang: {
@@ -13,11 +14,10 @@ const bangList = sequelize.define('banglist', {
 
 
 //bang goes in, query comes out.
-export function readBang(bang) {
+export function readBang(bang, cb) {
     bangList.findOne({ where: {bang: bang} })
         .then((response) => {
-            console.log("Returning this response: ", response);
-            return response;
+            cb(response.dataValues.query); //sorry
         });
 
 }
@@ -41,6 +41,3 @@ export function deleteBang(bang) {
         console.log("Deleted", response);
     });
 }
-
-deleteBang("plm");
-readBang("g");
