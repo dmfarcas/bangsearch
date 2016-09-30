@@ -1,8 +1,11 @@
 'use strict';
 
+import { readBang } from './database_operations';
+
 export function searchStrings(query) {
-    
-    const bang = /\!\w+/.exec(query)[0];
+    const regex = /\!\w+/.exec(query);
+    const defaultBang = "!g";
+    const bang = regex ? regex[0] : defaultBang;
     const extractedQuery = extractQuery(bang, query);
     const queries = {
         "g": "https://encrypted.google.com/search?hl=en&q=" + extractedQuery,
