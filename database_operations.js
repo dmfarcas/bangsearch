@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('postgres://postgres:postgres@127.0.0.1:5432/postgres');
+const sequelize = new Sequelize('postgres://postgres:postgres@127.0.0.1:5432/keywordsearch');
 const bangList = sequelize.define('banglist', {
   bang: {
     type: Sequelize.STRING,
@@ -14,12 +14,7 @@ const bangList = sequelize.define('banglist', {
 
 //bang goes in, query comes out.
 export function readBang(bang) {
-    bangList.findOne({ where: {bang: bang} })
-        .then((response) => {
-            console.log("Returning this response: ", response);
-            return response;
-        });
-
+    return bangList.findOne({ where: {bang: bang} });
 }
 
 //insert bang and query
@@ -42,5 +37,5 @@ export function deleteBang(bang) {
     });
 }
 
-deleteBang("plm");
-readBang("g");
+// writeBang("g", "https://encrypted.google.com/search?hl=en&q=%s")
+// readBang("g");

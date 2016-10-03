@@ -3,7 +3,7 @@
 'use strict';
 
 import * as Hapi from 'hapi';
-import { searchStrings } from './search_strings'
+import { searchStrings } from './string_stuff'
 
 const server = new Hapi.Server({ debug: { request: ['error'] } });
 
@@ -16,15 +16,15 @@ server.route({
 });
 
 function searchHandler (request, reply) {  
-        const query = request.query.q;
-        const search = searchStrings(query);
-
-        if (!search) {
+        if (!request.query.q) { 
             reply("Bang not found"); //TODO offer to add to db.
-            return;
+            return; //fail fast, don't crash pls.'
         }
 
-        reply.redirect(search);
+        searchStrings(request.query.q)
+        .then((response) => {
+            reply.redirect(response.dataValues.query);
+        });
     }
 
 
